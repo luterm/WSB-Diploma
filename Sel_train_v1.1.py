@@ -24,8 +24,6 @@ time.sleep(5)
 # Close the driver
 driver.quit()
 
-
-#add this file to git loc repo and check oyt github config and synchro
 #find example test cases to check login frame and password
 #find an example of tests for collecting data from google search and collect them in a database created
 #check out the new git tool on desktop and config it
