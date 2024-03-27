@@ -25,8 +25,13 @@ time.sleep(1)
 sign_in_button = driver.find_element(By.CLASS_NAME, "gb_Kd")
 sign_in_button.click()
 
+# find and fill in login frame with the correct account name and password
+# the following two lines doesn't work as they should - check out if 'send_keys' is implemented correctly
+username_txt = driver.find_element(By.CLASS_NAME, "whsOnd zHQkBf")
+username_txt.send_keys("some.username")
 
-time.sleep(10)
+
+time.sleep(190)
 # Close the driver
 driver.quit()
 
