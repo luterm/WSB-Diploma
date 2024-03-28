@@ -18,7 +18,7 @@ time.sleep(1)
 rejection_button = driver.find_element(By.ID, "W0wltc")
 
 # Wait for 'n' sec, then click the rejection_button
-time.sleep(2)
+time.sleep(1)
 rejection_button.click()
 
 # wait for 'n'sec, then push sign_in_button
@@ -26,14 +26,19 @@ time.sleep(1)
 sign_in_button = driver.find_element(By.CLASS_NAME, "gb_Kd")
 sign_in_button.click()
 
-# find and fill in login frame with the correct account name and password
+# find and fill in login frame with the correct account name and password - protect them first (config file? or smthg)
 # the following two lines doesn't work as they should - check out if 'send_keys' is implemented correctly
-time.sleep(2)
+time.sleep(1)
 username_txt = driver.find_element(By.NAME, "identifier")
-username_txt.send_keys("some.heavy.user")
+username_txt.send_keys("some.heavy.user@gmail.com")
+
+# locate the "next" button, then click it
+time.sleep(1)
+sign_in_next = driver.find_element(By.ID, "identifierNext")
+sign_in_next.click()
 
 
-time.sleep(125)
+time.sleep(8)
 # Close the driver
 driver.quit()
 
