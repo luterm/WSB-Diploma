@@ -30,7 +30,7 @@ sign_in_button.click()
 # the following two lines doesn't work as they should - check out if 'send_keys' is implemented correctly
 time.sleep(2)
 username_txt = driver.find_element(By.NAME, "identifier")
-username_txt.send_keys("some.username")
+username_txt.send_keys("some.heavy.user")
 
 
 time.sleep(125)
