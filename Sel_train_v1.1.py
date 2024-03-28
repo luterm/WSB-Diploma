@@ -43,5 +43,5 @@ time.sleep(8)
 driver.quit()
 
 # find a method to secure username and password to be used in code ; config file???
-# find example test cases to check login frame and password
+# find example test cases to check login frame and password; for example checking username availability.
 # find an example of tests for collecting data from google search and collect them in a database created
