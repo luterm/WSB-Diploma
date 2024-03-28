@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys 
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
@@ -27,15 +28,15 @@ sign_in_button.click()
 
 # find and fill in login frame with the correct account name and password
 # the following two lines doesn't work as they should - check out if 'send_keys' is implemented correctly
-username_txt = driver.find_element(By.CLASS_NAME, "whsOnd zHQkBf")
+time.sleep(2)
+username_txt = driver.find_element(By.NAME, "identifier")
 username_txt.send_keys("some.username")
 
 
-time.sleep(190)
+time.sleep(125)
 # Close the driver
 driver.quit()
 
 
 #find example test cases to check login frame and password
 #find an example of tests for collecting data from google search and collect them in a database created
-#check out the new git tool on desktop and config it
