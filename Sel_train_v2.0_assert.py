@@ -26,5 +26,7 @@ assert displayed_err == expected_msg, "Displayed error is not as expected."
 
 print("PASS")
 
+# add a functionality to save the test case output message in a table or text form
+# create a loop with an automated input; randomized or taken from the list
 
 breakpoint()
