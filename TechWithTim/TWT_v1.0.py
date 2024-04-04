@@ -12,7 +12,7 @@ driver.get("https://google.com")
 
 WebDriverWait(driver, 5).until(
     EC.presence_of_element_located((By.ID, "W0wltc"))
-)
+) #does it work the way as 'implicit wait' works?
 
 reject_all_button = driver.find_element(By.ID, "W0wltc")
 #time.sleep(1) 
@@ -28,7 +28,9 @@ input_element = driver.find_element(By.CLASS_NAME, "gLFyf")
 #input_element.clear() - usefull in case of a 'search textbox' preloaded with any text in it
 input_element.send_keys("glut ziarnisty" + Keys.ENTER)
 
-
+#to search the link by an included text form the 'text search'
+link = driver.find_element(By.PARTIAL_LINK_TEXT, "glut") #check with a text which differs from the 'search phrase'
+link.click()
 
 breakpoint()
 
