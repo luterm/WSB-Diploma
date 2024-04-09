@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, './')
+#sys.path.insert(0, './') potential resolution for src module missing
 from src.calculator import summation, subtraction, multiplication, division
 
 
