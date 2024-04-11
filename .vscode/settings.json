@@ -1,7 +1,0 @@
-{
-    "python.testing.pytestArgs": [
-        "Selenium_Python"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
-}
