@@ -5,7 +5,13 @@ import source.my_functions as my_functions
 #    pass
 
 def test_add():
-    result = my_functions.add(number_one=1, number_two=2)
+    result = my_functions.add(1, 2)
+    assert result == 3
+
+
+def test_add_strings():
+    result = my_functions.add("rower ", "wodowy") #a space at the and of the first string matters!
+    assert result == "rower wodowy"
 
 
 def test_divide():
@@ -14,5 +20,7 @@ def test_divide():
 
 
 def test_divide_by_zero():
-    with pytest.raises(ZeroDivisionError):
+    with pytest.raises(ValueError):
         my_functions.divide(10,0)
+
+
