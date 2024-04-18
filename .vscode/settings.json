@@ -1,8 +1,14 @@
 {
     "python.testing.pytestArgs": [
-        "FCC_Pytest",
-        "Create_a_human"
+        "FCC_Pytest"
     ],
-    "python.testing.unittestEnabled": true,
-    "python.testing.pytestEnabled": true
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./Create_a_human",
+        "-p",
+        "test_*.py"
+    ]
 }
