@@ -55,3 +55,5 @@ while True:
         if cookies_count >= product_price:
             product = driver.find_element(By.ID, product_prefix + str(i)).click()
             break
+
+#
