@@ -28,15 +28,16 @@ time.sleep(2)
 
 #breakpoint()
 
-WebDriverWait(driver, 4).until(
+WebDriverWait(driver, 3).until(
     EC.presence_of_all_elements_located((By.PARTIAL_LINK_TEXT, "testing in"))
 )
 link = driver.find_element(By.PARTIAL_LINK_TEXT, "testing in").click()
+
 time.sleep(2)
 
 #to search for all the elements including a certain phrase use this:
 #links = driver.find_elements(By.PARTIAL_LINK_TEXT, "gluty") #it should return an array of results, how to make it?
 #[element1, element2, element3]
 
-breakpoint()
+#breakpoint()
 driver.quit()
