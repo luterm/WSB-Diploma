@@ -6,47 +6,37 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-
 driver = webdriver.Chrome()
 driver.get("https://google.com")
 
-WebDriverWait(driver, 5).until(
+WebDriverWait(driver, 3).until(                                     # does it work same way as the 'implicit wait'?
     EC.presence_of_element_located((By.ID, "W0wltc"))
-) #does it work the way as 'implicit wait' works?
+)                                                           
 
-reject_all_button = driver.find_element(By.ID, "W0wltc")
-#time.sleep(1) 
+reject_all_button = driver.find_element(By.ID, "W0wltc").click()    # '.click()' instead of the next code line, literally : 'reject_all_button.click()'
+time.sleep(2)
 
-reject_all_button.click()
-time.sleep(1)
-
-WebDriverWait(driver, 5).until(
+WebDriverWait(driver, 3).until(                                     # waiting for a 'searched phrase input frame'
     EC.presence_of_element_located((By.CLASS_NAME, "gLFyf"))
 )
 
-input_element = driver.find_element(By.CLASS_NAME, "gLFyf")
-#input_element.clear() - usefull in case of a 'search textbox' preloaded with any text in it
-input_element.send_keys("glut ziarnisty" + Keys.ENTER)
+input_element = driver.find_element(By.CLASS_NAME, "gLFyf")         # assigning the 'searched phrase input frame' to an object, to be used in furhter operations
+#input_element.clear() - usefull in case of a 'searched phrase input frme' preloaded with any text in it by default
 
-    #to search the link by an included text form the 'text search'
-    #check with a text which differs from the 'search phrase'
-WebDriverWait(driver, 5).until(
-    EC.presence_of_all_elements_located((By.PARTIAL_LINK_TEXT, "glut"))
+input_element.send_keys("automated assertions tests python selenium vs code", Keys.ENTER) #assigning exact text to be written in the 'searched phrase input frame'
+time.sleep(2)
+
+#breakpoint()
+
+WebDriverWait(driver, 4).until(
+    EC.presence_of_all_elements_located((By.PARTIAL_LINK_TEXT, "testing in"))
 )
-link = driver.find_element(By.PARTIAL_LINK_TEXT, "glut")
-    #to search an exact text; use LINK_TEXT, without PARTIAL alias before
-    #it addressess to the first link met expected text search condition
-link.click()
+link = driver.find_element(By.PARTIAL_LINK_TEXT, "testing in").click()
+time.sleep(2)
 
-    #to search for all the elements including a certain phrase use this:
+#to search for all the elements including a certain phrase use this:
 #links = driver.find_elements(By.PARTIAL_LINK_TEXT, "gluty") #it should return an array of results, how to make it?
 #[element1, element2, element3]
 
-
-
-
 breakpoint()
-
-
 driver.quit()
-#now prepare a regular, automated search function in main google window
