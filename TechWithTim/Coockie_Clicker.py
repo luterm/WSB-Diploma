@@ -44,18 +44,14 @@ while True:
     cookies_count = int(cookies_count.replace(",", ""))
 #    print(cookies_count)
 
-
-
     for i in range(4):
-        product_price = driver.find_element(By.ID, product_price_prefix +str(i))
+        product_price = driver.find_element(By.ID, product_price_prefix + str(i)).text.replace(",", "")
 
         if not product_price.isdigit():
             continue
 
-        product_price = int(product_price.replace(",", ""))
+        product_price = int(product_price)
 
         if cookies_count >= product_price:
             product = driver.find_element(By.ID, product_prefix + str(i)).click()
             break
-
-breakpoint()
