@@ -17,16 +17,18 @@ class LinearDemo(unittest.TestCase):
         self.driver.implicitly_wait(2)
 
         
-    def test_linear_flow_testing(self):
+    def test_linear_flow_testing_v1(self):
         # Navigate to desired web page and verify web page is displayed
         self.driver.get("https://jignect.tech/")
-        self.assertTrue("Software and QA Testi ng Company| JigNect Technologies Pvt Ltd" in self.driver.title, "Expected text not found in page title") 
-# why it knows what the 'title' is if not defined before?
+        #self.assertTrue("Softwqwware and QA Testing Company| JigNect Technologies Pvt Ltd" in self.driver.title) 
+        self.assertTrue("Software and QA Testing Company| JigNect Technologies Pvt Ltd" in self.driver.title, "Expected text not found in page title")
+
+
+# Create a separated testCase checking if the page title is as expected - in original version if it is not, programm is breaking at this point and the web browser is terminated
         
 
         # Clicka on the contact us button
-        contact_us_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/nav/ul/li[8]/a").click() 
-# changed incorrect XPATH to actual
+        contact_us_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/nav/ul/li[8]/a").click() # changed incorrect XPATH to actual
        
 
         # Verify desired page i displayed
@@ -42,6 +44,16 @@ class LinearDemo(unittest.TestCase):
         self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Company']").send_keys("Bulepa")
         time.sleep(3)
         
+
+# Create a testcase to check if the web accepts incorrect mail formats - implement random mail generator? 
+
+# Create a testCase to check if there is a limit of digits in the box for mail and phone number as well (two test cases)
+
+# Create a testcase to check if the phone number can be accepted if includes incorrect syntax or elements (letters, etc) - random phone numbers generator? 
+
+# Create a test case to check if the error message is as expected in case of invalid phone or mail data given
+
+
         self.driver.find_element(By.CSS_SELECTOR, "span[id='checkboxOne']").click()
         #breakpoint()
     
@@ -77,13 +89,3 @@ class LinearDemo(unittest.TestCase):
 # It is mandatory when you want to run code using command prompt
 if __name__ == '__main__':
     unittest.main()
-
-
-# Why does it work under Pythest and Unittest choosen from Command Palette?
-
-# Why __init__ file in the project folder is no longer required?
-
-# Is it what we can call a Test Suite if it contains 3 assertions reffering to somewhat 'same' result or functionality?
-
-# Why VS-Code recognizes it as a single test? (In comparison to the source project from https://jignect.tech/selenium-python-unittest-trio-for-flawless-test-automation/) 
-# or is it result of latest environment workflow? (contrary to the original)
