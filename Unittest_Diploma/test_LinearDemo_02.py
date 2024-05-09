@@ -28,7 +28,8 @@ class LinearDemo(unittest.TestCase):
         
 
         # Clicka on the contact us button
-        contact_us_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/nav/ul/li[8]/a").click() # changed incorrect XPATH to actual
+        contact_us_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/nav/ul/li[8]/a").click() 
+# changed incorrect XPATH to actual
        
 
         # Verify desired page i displayed

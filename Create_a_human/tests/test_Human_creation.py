@@ -1,5 +1,5 @@
 import unittest
-from source.Human_creation import Human
+from source.human_creation import Human
 
 class HumanTest(unittest.TestCase):
 
