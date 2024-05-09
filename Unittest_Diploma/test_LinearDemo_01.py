@@ -17,7 +17,7 @@ class LinearDemo(unittest.TestCase):
         self.driver.implicitly_wait(2)
 
         
-    def test_linear_flow_testing(self):
+    def test_linear_flow_testing_01(self):
         # Navigate to desired web page and verify web page is displayed
         self.driver.get("https://jignect.tech/")
         self.assertTrue("Software and QA Testi ng Company| JigNect Technologies Pvt Ltd" in self.driver.title, "Expected text not found in page title") 
