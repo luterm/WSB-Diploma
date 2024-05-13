@@ -5,83 +5,132 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-
-#Class Create
-
 class LinearDemo(unittest.TestCase):
 
     def setUp(self):
         
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
-        self.driver.implicitly_wait(2)
+        self.driver.implicitly_wait(3)
 
         
     def test_linear_flow_testing_02(self):
-        # Navigate to desired web page and verify web page is displayed
+        
         self.driver.get("https://jignect.tech/")
-        #self.assertTrue("Softwqwware and QA Testing Company| JigNect Technologies Pvt Ltd" in self.driver.title) 
+        
+        # 1. Check the if the web title is as expected
         self.assertTrue("Software and QA Testing Company| JigNect Technologies Pvt Ltd" in self.driver.title, "Expected text not found in page title")
-
-
-# Create a separated testCase checking if the page title is as expected - in original version if it is not, programm is breaking at this point and the web browser is terminated
         
+        # 2. Check if the 'contact us' button is displayed properely
+        contact_us_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/nav/ul/li[8]/a")
+        self.assertTrue(contact_us_button.is_displayed(), "The 'contact us button' element not displayed")
 
-        # Clicka on the contact us button
-        contact_us_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/nav/ul/li[8]/a").click() 
-# changed incorrect XPATH to actual
-       
+        # 3. Check if the 'contact us' button is clickable and redirects the expected subpage of the expected title
+        contact_us_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/nav/ul/li[8]/a").click()
+        self.assertTrue("Contact Us | JigNect Technologies Pvt Ltd" in self.driver.title, "Expected text not found in page title")
 
-        # Verify desired page i displayed
+        # 4. Check if the 'contact-new-form' element is displayed properely
+        conact_new_form = self.driver.find_element(By. CSS_SELECTOR, "#contact-new-form")
+        self.assertTrue(conact_new_form.is_displayed(), "The element 'contact_new_form' not displayed")
+
+        # 5. Check if desired text header appears on the 'contact us box'
         contact_us_header = self.driver.find_element(By.CSS_SELECTOR, "div[class='contact-title'] h2").text
+        self.assertEqual(contact_us_header, "Let's talk", "Contact Us welcome message not displayed")
+
+        # 6. Check if the 'contact us box' displays expecgted 'contact message' 
+        contact_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > textarea")
+        placeholder = contact_message.get_attribute("placeholder")
+        self.assertEqual(placeholder, "Do you have any specific requirements? Please let us know and we can include them in the discussion.", "Expected text not present")
+
+
+        # 7. Check if the 'fields have an error' message is not present before 'submit button' clicked with fields left empty
+            
+        error_message_element = self.driver.find_element(By.XPATH, "//*[@id='wpcf7-f4408-p4307-o1']/form/div[3]")
+        self.assertFalse(error_message_element.is_displayed(), "Unexpected field error message")
         
-        self.assertEqual(contact_us_header, "Let's talk", "Contact Us page does not displayed")
 
-        # Generate random string
-        full_name = "".join(random.choice(string.ascii_letters) for _ in range(11))
+        # 8. Check if the expected validation message is displayed properely when the 'contact new form' fields clicked and left empty and the 'submit' button clicked.
 
-        # Enter value in full name and company name, select checkbox and click on submit button
-        self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Full name']").send_keys(full_name)
-        self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Company']").send_keys("Bulepa")
-        time.sleep(3)
-        
+            # Find and click 'contact new form' textarea, leave it empty.
+        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > textarea").click()
 
-# Create a testcase to check if the web accepts incorrect mail formats - implement random mail generator? 
+            # Find and click 'full name' textbox, leave it empty.
+        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(1) > p > span > input").click()
 
-# Create a testCase to check if there is a limit of digits in the box for mail and phone number as well (two test cases)
-
-# Create a testcase to check if the phone number can be accepted if includes incorrect syntax or elements (letters, etc) - random phone numbers generator? 
-
-# Create a test case to check if the error message is as expected in case of invalid phone or mail data given
-
-
+            # Find and click 'work email address' textbox on the 'contact new form', leave it empty.
         self.driver.find_element(By.CSS_SELECTOR, "span[id='checkboxOne']").click()
-        #breakpoint()
-    
-        self.driver.find_element(By.CSS_SELECTOR, "input[value='Submit']").click()
 
-        #verify the validation message for mandatory fields
+            # Find and click 'company' textbox, leave it empty.
+        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(1) > p > span > input").click()
+
+            # Find and click 'phone number' textbox, leave it empty.
+        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(2) > p > span > input").click()
+
+            # Find and click 'Submit' button on the 'contact new form'.
+        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(6) > div > p > input").click()
+
+            # Leave the 'I agree to have Jignect contact' checkbox unmarked
+
+        
+            # validation message set as variable
         expected_validation_message = 'The field is required.'
 
+            # 'contact new form' textarea validation message check
+        textarea_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > span").text
+        self.assertEqual(textarea_actual_validation_message, expected_validation_message, "'Textarea' validation message does not match")
+
+            # 'full name' textbox validation message check 
+        full_name_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(1) > p > span > span").text
+        self.assertEqual(full_name_actual_validation_message, expected_validation_message, "'Full name' validation message does not match")
+
+            # 'work email address' field validation message presence check
+        email_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(2) > p > span > span").text
+        self.assertEqual(email_actual_validation_message, expected_validation_message, "'Email' validation message does not match")
+
+            # 'company'
+        company_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(2) > p > span > span").text
+        self.assertEqual(company_actual_validation_message, expected_validation_message, "'Phone number' validation message does no match")
         
-        textarea_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > span").text # Changed to actual
-        
-        email_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(2) > p > span > span").text # Changed to actual
-        
-        phone_number_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(2) > p > span > span").text # Changed to actual
-
-
-
-
-        self.assertEqual(textarea_actual_validation_message, expected_validation_message, "textarea validation message does not match")
-
-        self.assertEqual(email_actual_validation_message, expected_validation_message, "Email validation message does not match")
-
+            # 'phone number' field validation message presence check
+        phone_number_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(2) > p > span > span").text
         self.assertEqual(phone_number_actual_validation_message, expected_validation_message, "Phone number validation message does not match")
 
+            # 'I agree to have Jignect contact' checkbox validation message presence check
+        contact_agree_box = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(5) > div > p > span > span.wpcf7-not-valid-tip").text
 
 
+        # 9. Check if 'fields have an error' message is present; has appeared. 
+        error_message_element = self.driver.find_element(By.XPATH, "//*[@id='wpcf7-f4408-p4307-o1']/form/div[3]")
+        self.assertTrue(error_message_element.is_displayed(), "'error message' field did not appeared'")
 
+
+        # 10. Check if the 'contact new form' is clicable and saves 'user message' properely to the value
+        contact_new_form = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > textarea").click()
+
+        characters = string.ascii_letters + string.digits + string.punctuation
+        user_message = "".join(random.choice(characters) for _ in range(222))
+        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > textarea").send_keys(characters)
+
+        user_message_value = self.driver.find_element(By. CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > textarea")
+        value = user_message_value.get_attribute("value")
+        self.assertEqual(value, characters, "Expected user input not found")
+
+
+        # 11. Check if the hidden prompt field 'One or more fields have an error. Please check and try again.' appears.
+
+        submit_error_prompt = self.driver.find_element(By. CSS_SELECTOR, "#wpcf7-f4408-p4307-o1 > form > div.wpcf7-response-output")
+        self.assertTrue(submit_error_prompt.is_displayed(), "The submit error prompt not displayed")
+
+        # 12. Check if the validation message disappears if all of the 'contact new form' required fields are fulfilled but 'I agree...' checkbox left unmarked.
+        
+        # Generate a random user 'full name' and put it into 'contact new form' in the 'full name' box.
+        full_name = "".join(random.choice(string.ascii_letters) for _ in range(11))
+        self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Full name']").send_keys(full_name)
+
+        # Generate a random 'company' name and put it into 'contact new form' in the 'full name' box.
+        company = "".join(random.choice(characters) for _ in range (37))
+        self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Company']").send_keys(company)
+        time.sleep(2)
     def tearDown(self):
         """Tear down methond to close the browser."""
         self.driver.quit()
@@ -90,3 +139,13 @@ class LinearDemo(unittest.TestCase):
 # It is mandatory when you want to run code using command prompt
 if __name__ == '__main__':
     unittest.main()
+
+# Create a testcase to check if the web accepts incorrect mail formats - implement random mail generator? 
+# Create a testCase to check if there is a limit of digits in the box for mail and phone number as well (two test cases)
+# Create a testcase to check if the phone number can be accepted if includes incorrect syntax or elements (letters, etc) - random phone numbers generator? 
+# Create a test case to check if the error message is as expected in case of invalid phone or mail data given
+
+
+#fill up fields, one by one to check if the validation message dissappears
+#check if the 'agree...' box left unmarked allows to pass the submission in case of input data as email and phone are in correct format
+#check that in case of incorrect email and phone number format aproppriate message is displayed
