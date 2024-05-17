@@ -136,44 +136,25 @@ class LinearDemo(unittest.TestCase):
 
 #ADD 'validation message" BEHAVIOUR CHECK
 
-
         
         # 13. Check if the 'Work email address' is clicable and saves 'user message' properely to the value
-
         # 14. Check if the 'Company' is clicable and saves 'user message' properely to the value
-
         # 15. Check if the 'Phoone number' is clicable and saves 'user message' properely to the value
-
-
-        
-
         # 16. Check if the validation message disappears if all of the 'contact new form' required fields are fulfilled but 'I agree...' checkbox left unmarked.
-        
-        # Generate a random user 'full name' and put it into 'contact new form' in the 'full name' box. - faker
-        
-
         # Generate a random 'company' name and put it into 'contact new form' in the 'full name' box.
         company = "".join(random.choice(characters) for _ in range (37))
         self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Company']").send_keys(company)
         time.sleep(3)
-
-        # Close the browser and clear resources
     
-
-
 # It is mandatory when you want to run code using command prompt
 if __name__ == '__main__':
     unittest.main()
 
-
-# Check the phone number format input acceptance IMPORTANT
-# Create a testcase to check if the web accepts incorrect mail formats - implement random mail generator? IMPORTANT
-
-# Create a testCase to check if there is a limit of digits in the box for mail and phone number as well (two test cases)
-# Create a testcase to check if the phone number can be accepted if includes incorrect syntax or elements (letters, etc) - random phone numbers generator? 
+#fill up fields, one by one to check if the validation message dissappears
+#check if the 'agree...' box left unmarked allows to pass the submission in case of input data as email and phone are in correct format
+#check that in case of incorrect email/phone number format aproppriate message is displayed - use generator?
 # Create a test case to check if the error message is as expected in case of invalid phone or mail data given
 
 
-#fill up fields, one by one to check if the validation message dissappears
-#check if the 'agree...' box left unmarked allows to pass the submission in case of input data as email and phone are in correct format
-#check that in case of incorrect email and phone number format aproppriate message is displayed
+# Create a testcase to check if the web accepts incorrect mail formats - implement random mail generator? IMPORTANT
+# Create a testCase to check if there is a limit of digits in the box for mail and phone number as well (two test cases)
