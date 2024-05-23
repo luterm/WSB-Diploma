@@ -142,15 +142,26 @@ class LinearDemo(unittest.TestCase):
             textarea_actual_validation_message_disappeared = False
         self.assertTrue(textarea_actual_validation_message_disappeared, "'Textarea' validation message still appears")
 
+#13 Check if the 'Full name' textarea 'validation message' disappears after moving to the next required field - being clicked and left empty:
+
+        company = self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input').click()
+        full_name_actual_validation_message_locator = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[1]/p/span/span')
+        try:
+            WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located(full_name_actual_validation_message_locator))
+            full_name_actual_validation_message_disappeared = True
+        except TimeoutException:
+            full_name_actual_validation_message_disappeared = False
+            self.assertTrue(full_name_actual_validation_message_disappeared, "'Full name' validation message still appears")
         
         # 13. Check if the 'Work email address' is clicable and saves 'user message' properely to the value
         # 14. Check if the 'Company' is clicable and saves 'user message' properely to the value
         # 15. Check if the 'Phoone number' is clicable and saves 'user message' properely to the value
         # 16. Check if the validation message disappears if all of the 'contact new form' required fields are fulfilled but 'I agree...' checkbox left unmarked.
         # Generate a random 'company' name and put it into 'contact new form' in the 'full name' box.
-        company = "".join(random.choice(characters) for _ in range (37))
-        self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Company']").send_keys(company)
-        time.sleep(3)
+
+        #company = "".join(random.choice(characters) for _ in range (37))
+        #self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Company']").send_keys(company)
+        #time.sleep(3)
     
 # It is mandatory when you want to run code using command prompt
 if __name__ == '__main__':
