@@ -141,11 +141,6 @@ class LinearDemo(unittest.TestCase):
         except TimeoutException:
             textarea_actual_validation_message_disappeared = False
         self.assertTrue(textarea_actual_validation_message_disappeared, "'Textarea' validation message still appears")
-        
-        
-
-
-#ADD 'validation message" BEHAVIOUR CHECK
 
         
         # 13. Check if the 'Work email address' is clicable and saves 'user message' properely to the value
@@ -161,11 +156,8 @@ class LinearDemo(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-#fill up fields, one by one to check if the validation message dissappears
+#fill up fields, one by one to check if the validation message dissappears - in progress
+
 #check if the 'agree...' box left unmarked allows to pass the submission in case of input data as email and phone are in correct format
 #check that in case of incorrect email/phone number format aproppriate message is displayed - use generator?
-# Create a test case to check if the error message is as expected in case of invalid phone or mail data given
-
-
-# Create a testcase to check if the web accepts incorrect mail formats - implement random mail generator? IMPORTANT
 # Create a testCase to check if there is a limit of digits in the box for mail and phone number as well (two test cases)
