@@ -1,8 +1,12 @@
 import unittest
 import random
 import string
+
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
 import time
 
@@ -92,14 +96,15 @@ class LinearDemo(unittest.TestCase):
 
             # 'company'
         company_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(2) > p > span > span").text
-        self.assertEqual(company_actual_validation_message, expected_validation_message, "'Phone number' validation message does no match")
+        self.assertEqual(company_actual_validation_message, expected_validation_message, "'Company' validation message does no match")
         
             # 'phone number' field validation message presence check
         phone_number_actual_validation_message = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(2) > p > span > span").text
-        self.assertEqual(phone_number_actual_validation_message, expected_validation_message, "Phone number validation message does not match")
+        self.assertEqual(phone_number_actual_validation_message, expected_validation_message, "'Phone number' validation message does not match")
 
             # 'I agree to have Jignect contact' checkbox validation message presence check
-        contact_agree_box = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(5) > div > p > span > span.wpcf7-not-valid-tip").text
+        contact_agreement_box = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(5) > div > p > span > span.wpcf7-not-valid-tip").text
+        self.assertEqual(contact_agreement_box, expected_validation_message, "'Contact agreement' validation message does not match")
 
 
 # 9. Check if 'One or more fields have an error' message is present; has appeared. 
@@ -123,14 +128,20 @@ class LinearDemo(unittest.TestCase):
 # 11. Check if the 'Full name field' saves input correctly to the value of web placeholder.  
 
         full_name = self.fake.name()
-
         full_name_field = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(1) > p > span > input").send_keys(full_name)
-        
         full_name_value = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(1) > p > span > input").get_attribute("value")
-    
-        self.assertEqual(full_name, full_name_value, "Full name value missing")
+        self.assertEqual(full_name, full_name_value, "'Full name' value missing")
 
 # 12. Check if the 'user message' textarea 'validation message' disappears after moving to the next required field - being clicked and left empty:
+
+        textarea_actual_validation_message_locator = (By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > span")
+        try:
+            WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located(textarea_actual_validation_message_locator))
+            textarea_actual_validation_message_disappeared = True
+        except TimeoutException:
+            textarea_actual_validation_message_disappeared = False
+        self.assertTrue(textarea_actual_validation_message_disappeared, "'Textarea' validation message still appears")
+        
         
 
 
