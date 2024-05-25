@@ -116,7 +116,7 @@ class LinearDemo(unittest.TestCase):
 
             # a random 'user message' assigned to the variable, text generated and sent to the textbox and checked if saved in a dedicated value properely
         characters = string.ascii_letters + string.digits + string.punctuation
-        user_message = "".join(random.choice(characters) for _ in range(222))
+        user_message = "".join(random.choice(characters) for _ in range(1222))
         self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > textarea").send_keys(characters)
 
             # checking if the 'user message' has been saved succesfully
@@ -147,12 +147,25 @@ class LinearDemo(unittest.TestCase):
         company = self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input').click()
         full_name_actual_validation_message_locator = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[1]/p/span/span')
         try:
-            WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located(full_name_actual_validation_message_locator))
+            WebDriverWait(self.driver, 3).until(EC.invisibility_of_element_located(full_name_actual_validation_message_locator))
             full_name_actual_validation_message_disappeared = True
         except TimeoutException:
             full_name_actual_validation_message_disappeared = False
             self.assertTrue(full_name_actual_validation_message_disappeared, "'Full name' validation message still appears")
+
+#14 Check if the 'Company' is interactive and saves 'user text' properely to the value:
+        # disscuss with ChatGPT how deep this test can reach and what properties of this element we can check before passing user's input!!!!
         
+        company_name = "".join(random.choice(characters) for _ in range(32))
+        self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input').send_keys(characters)
+        time.sleep(3)
+        company_name_value = self.driver.find_element(By.CSS_SELECTOR, '#contact-new-form > div:nth-child(4) > div:nth-child(1) > p > span > input')
+        value = company_name_value.get_attribute("value")
+        self.assertEqual(value, characters, "Expected user input not present")
+        # TC014 to be checked, not working as expected. 
+
+
+
         # 13. Check if the 'Work email address' is clicable and saves 'user message' properely to the value
         # 14. Check if the 'Company' is clicable and saves 'user message' properely to the value
         # 15. Check if the 'Phoone number' is clicable and saves 'user message' properely to the value
