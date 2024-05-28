@@ -16,7 +16,7 @@ class LinearDemo(unittest.TestCase):
         
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(2)
         self.fake = Faker()
 
     def tearDown(self):
@@ -136,27 +136,27 @@ class LinearDemo(unittest.TestCase):
 
         textarea_actual_validation_message_locator = (By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > span")
         try:
-            WebDriverWait(self.driver, 10).until(EC.invisibility_of_element_located(textarea_actual_validation_message_locator))
+            WebDriverWait(self.driver, 1).until(EC.invisibility_of_element_located(textarea_actual_validation_message_locator))
             textarea_actual_validation_message_disappeared = True
         except TimeoutException:
             textarea_actual_validation_message_disappeared = False
         self.assertTrue(textarea_actual_validation_message_disappeared, "'Textarea' validation message still appears")
 
-#13 Check if the 'Full name' textarea 'validation message' disappears after moving to the next required field - being clicked and left empty:
+# 13 Check if the 'Full name' textarea 'validation message' disappears after moving to the next required field - being clicked and left empty:
 
         company = self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input').click()
         full_name_actual_validation_message_locator = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[1]/p/span/span')
         try:
-            WebDriverWait(self.driver, 3).until(EC.invisibility_of_element_located(full_name_actual_validation_message_locator))
+            WebDriverWait(self.driver, 1).until(EC.invisibility_of_element_located(full_name_actual_validation_message_locator))
             full_name_actual_validation_message_disappeared = True
         except TimeoutException:
             full_name_actual_validation_message_disappeared = False
             self.assertTrue(full_name_actual_validation_message_disappeared, "'Full name' validation message still appears")
 
-#14 Check if the 'Company' is interactive and saves 'user text' properely to the value:
+# 14 Check if the 'Company' is interactive and saves 'user text' properely to the value:
         # disscuss with ChatGPT how deep this test can reach and what properties of this element we can check before passing user's input!!!!
         
-        company_name = "".join(random.choice(characters) for _ in range(32))
+        company_name = "".join(random.choice(characters) for _ in range(12))
         self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input').send_keys(characters)
         time.sleep(3)
         company_name_value = self.driver.find_element(By.CSS_SELECTOR, '#contact-new-form > div:nth-child(4) > div:nth-child(1) > p > span > input')
@@ -164,17 +164,28 @@ class LinearDemo(unittest.TestCase):
         self.assertEqual(value, characters, "Expected user input not present")
         # TC014 to be checked, not working as expected. 
 
+# 15. Check if the 'Work email address' is clicable and saves 'user message' properely to the value
+
+        work_email_address_field = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[2]/p/span/input')
+
+        try:
+            work_email_address_field_is_clickable = WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable(work_email_address_field))
+            work_email_address_field = True
+            work_email_address_field_is_clickable.click()
+            time.sleep(3)
+        except TimeoutException:
+            work_email_address_field = False
+            self.assertTrue(work_email_address_field, "'Work email address' field not interactive")
+
+# 16. Check if the 'Work email address' returns an invalid email format prompt correctly in case of a random, non-email format input.
 
 
-        # 13. Check if the 'Work email address' is clicable and saves 'user message' properely to the value
-        # 14. Check if the 'Company' is clicable and saves 'user message' properely to the value
+
+
+
         # 15. Check if the 'Phoone number' is clicable and saves 'user message' properely to the value
         # 16. Check if the validation message disappears if all of the 'contact new form' required fields are fulfilled but 'I agree...' checkbox left unmarked.
-        # Generate a random 'company' name and put it into 'contact new form' in the 'full name' box.
 
-        #company = "".join(random.choice(characters) for _ in range (37))
-        #self.driver.find_element(By.CSS_SELECTOR, "input[placeholder='Company']").send_keys(company)
-        #time.sleep(3)
     
 # It is mandatory when you want to run code using command prompt
 if __name__ == '__main__':
