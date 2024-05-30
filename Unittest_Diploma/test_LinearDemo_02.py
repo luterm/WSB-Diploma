@@ -1,14 +1,12 @@
 import unittest
 import random
 import string
-
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
-import time
 
 class LinearDemo(unittest.TestCase):
 
@@ -158,7 +156,6 @@ class LinearDemo(unittest.TestCase):
         
         company_name = "".join(random.choice(characters) for _ in range(12))
         self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input').send_keys(characters)
-        time.sleep(3)
         company_name_value = self.driver.find_element(By.CSS_SELECTOR, '#contact-new-form > div:nth-child(4) > div:nth-child(1) > p > span > input')
         value = company_name_value.get_attribute("value")
         self.assertEqual(value, characters, "Expected user input not present")
@@ -172,27 +169,57 @@ class LinearDemo(unittest.TestCase):
             work_email_address_field_is_clickable = WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable(work_email_address_field))
             work_email_address_field = True
             work_email_address_field_is_clickable.click()
-            time.sleep(3)
         except TimeoutException:
             work_email_address_field = False
             self.assertTrue(work_email_address_field, "'Work email address' field not interactive")
 
-# 16. Check if the 'Work email address' returns an invalid email format prompt correctly in case of a random, non-email format input.
+# 16. Check if the 'Work email address' returns an invalid email format prompt correctly in case of a random, non-email format input. Prompt invoked by clicking 'phone number' field.
 
+        work_email_address_field = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[2]/p/span/input')
+        phone_number_field = (By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[2]/p/span/input')
+        invalid_email_format_message = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[2]/p/span/span')
+        
+        def generate_invalid_email():
+            
+            random_length = random.randint(1, 20)
+            return "".join(random.choice(characters) for _ in range (random_length))
+        
+        # Find the elements using the locators
+        work_email_field = self.driver.find_element(*work_email_address_field)
+        phone_field = self.driver.find_element(*phone_number_field)
 
+        # Loop to generate and send invalid emails
+        for _ in range(11):
+            invalid_email = generate_invalid_email()
+            work_email_field.send_keys(invalid_email)
+            phone_field.click()
 
+            # Wait for the validation message to appear
+            WebDriverWait(self.driver, 5).until(
+                EC.visibility_of_element_located(invalid_email_format_message)
+            )
 
+            # Check the error message
+            error_message = self.driver.find_element(*invalid_email_format_message).text
+            self.assertTrue("invalid email format" in error_message.lower(),
+                            f"Email format error message not found for input: {invalid_email}")
+            
+            # Clear the work email field for the next iteration
+            work_email_field.clear()
 
-        # 15. Check if the 'Phoone number' is clicable and saves 'user message' properely to the value
-        # 16. Check if the validation message disappears if all of the 'contact new form' required fields are fulfilled but 'I agree...' checkbox left unmarked.
-
+        work_email_field.clear()
+        phone_field.click()
     
+
+
 # It is mandatory when you want to run code using command prompt
 if __name__ == '__main__':
     unittest.main()
 
-#fill up fields, one by one to check if the validation message dissappears - in progress
 
+# 17. Check if the 'Phoone number' is clicable and saves 'user message' properely to the value
+# 18. Check if the validation message disappears if all of the 'contact new form' required fields are fulfilled but 'I agree...' checkbox left unmarked.
+#fill up fields, one by one to check if the validation message dissappears - in progress
 #check if the 'agree...' box left unmarked allows to pass the submission in case of input data as email and phone are in correct format
 #check that in case of incorrect email/phone number format aproppriate message is displayed - use generator?
 # Create a testCase to check if there is a limit of digits in the box for mail and phone number as well (two test cases)
