@@ -139,10 +139,21 @@ class LinearDemo(unittest.TestCase):
 
         # 16. Check if the invalid email validation message appears properly
         invalid_email_format_locator = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[2]/p/span/span')
-        def generate_invalid_email():
-            random_length = random.randint(5, 10)
-            return "".join(random.choice(string.ascii_letters) for _ in range(random_length))
 
+        def generate_invalid_email():
+
+            # Create different types of invalid emails:
+            types_of_invalid_emails = [
+                lambda: "".join(random.choice(string.ascii_letters) for _ in range(random.randint(5, 10))),  # No '@' symbol
+                lambda: "".join(random.choice(string.ascii_letters) for _ in range(random.randint(5, 10))) + "@",  # No domain after @
+                lambda: "@" + "".join(random.choice(string.ascii_letters) for _ in range(random.randint(5, 10))),  # Starts with @
+                lambda: "".join(random.choice(string.ascii_letters) for _ in range(random.randint(5, 10))) + "@example",  # No top-level domain
+                lambda: "".join(random.choice(string.ascii_letters) for _ in range(random.randint(5, 10))) + "@example.",  # No domain after dot
+                lambda: "".join(random.choice(string.ascii_letters) for _ in range(random.randint(5, 10))) + "@example.123"  # Numeric top-level domain
+            ]
+            return random.choice(types_of_invalid_emails)()
+
+            
         work_email_field = self.driver.find_element(*work_email_address_locator)
         phone_field = self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[2]/p/span/input')
 
@@ -151,14 +162,16 @@ class LinearDemo(unittest.TestCase):
             work_email_field.send_keys(invalid_email)
             phone_field.click()
 
-            WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(invalid_email_format_locator))
+            try:
+                WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(invalid_email_format_locator))
+                error_message = self.driver.find_element(*invalid_email_format_locator).text
+                self.assertIn("invalid email format", error_message.lower(), f"Email format error message not found for input: {invalid_email}")
+            except TimeoutException:
+                self.fail(f"Email format error message did not appear for input: {invalid_email}")
 
-            error_message = self.driver.find_element(*invalid_email_format_locator).text
-            self.assertIn("invalid email format", error_message.lower(), f"Email format error message not found for input: {invalid_email}")
             work_email_field.clear()
-
-        work_email_field.clear()
-        phone_field.click()
 
 if __name__ == "__main__":
     unittest.main()
+
+#refactor the code by creating variables form css pointed elements, to be easily invoked later in the code; reorganize variables to avoid unnecessary doubling them.
