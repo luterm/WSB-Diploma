@@ -156,7 +156,7 @@ class LinearDemo(unittest.TestCase):
             
         work_email_field = self.driver.find_element(*work_email_address_locator)
         phone_field = self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[2]/p/span/input')
-# THIS TC16 RUNS TOO FAST - EVEN THOUGH THE ERROR MESSAGE APPEARS, THE TEST RETURNS FALS FAILURE!
+# THIS TC RUNS TOO FAST - EVEN THOUGH THE ERROR MESSAGE APPEARS, THE TEST RETURNS FALS FAILURE!
         for _ in range(11):
             invalid_email = generate_invalid_email()
             work_email_field.send_keys(invalid_email)
