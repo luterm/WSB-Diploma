@@ -156,14 +156,14 @@ class LinearDemo(unittest.TestCase):
             
         work_email_field = self.driver.find_element(*work_email_address_locator)
         phone_field = self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[2]/p/span/input')
-
+# THIS TC16 RUNS TOO FAST - EVEN THOUGH THE ERROR MESSAGE APPEARS, THE TEST RETURNS FALS FAILURE!
         for _ in range(11):
             invalid_email = generate_invalid_email()
             work_email_field.send_keys(invalid_email)
             phone_field.click()
 
             try:
-                WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(invalid_email_format_locator))
+                WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(invalid_email_format_locator))
                 error_message = self.driver.find_element(*invalid_email_format_locator).text
                 self.assertIn("invalid email format", error_message.lower(), f"Email format error message not found for input: {invalid_email}")
             except TimeoutException:
