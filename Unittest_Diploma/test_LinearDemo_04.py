@@ -32,6 +32,7 @@ class LinearDemo(unittest.TestCase):
         # Define the locators
         contact_us_button = (By.XPATH, "//nav/ul/li[8]/a")
         contact_us_header = (By.CSS_SELECTOR, "div.contact-title h2")
+        contact_us_invitation_placeholder = (By.CSS_SELECTOR, "#contact-new-form textarea[placeholder]")
         text_area = (By.CSS_SELECTOR, '#contact-new-form > div:nth-child(2) > div > p > span > textarea')
         
         # TC_03. Check if the 'contact us' button is clickable and redirects to the expected subpage
@@ -64,7 +65,7 @@ class LinearDemo(unittest.TestCase):
         self.assertEqual(contact_us_header_welcome_text, "Let's talk", "Contact Us welcome message not displayed")
 
 # TC_06. Check if the 'contact us box' displays the expected 'contact message' 
-        contact_us_invitation_placeholder = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form textarea[placeholder]")
+        contact_us_invitation_placeholder = self.driver.find_element(*contact_us_invitation_placeholder)
         placeholder = contact_us_invitation_placeholder.get_attribute("placeholder")
         self.assertEqual(placeholder, 
                          "Do you have any specific requirements? Please let us know and we can include them in the discussion.",
@@ -103,14 +104,16 @@ class LinearDemo(unittest.TestCase):
 # TC_09. Check if 'One or more fields have an error' message is present
         fields_have_an_error_message = self.driver.find_element(By.XPATH, "//*[@id='wpcf7-f4408-p4307-o1']/form/div[3]")
         self.assertTrue(fields_have_an_error_message.is_displayed(), "'Fields have an error message' did not appear")
+# CONTINUE REFACTORING AND CHECK FROM HERE
 
-# TC_11. Check if the 'contact new form' saves 'user message' properly
+
+# TC_10. Check if the 'contact new form' saves 'user message' properly
         user_message = "".join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(1222))
         self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form textarea").send_keys(user_message)
         user_message_value = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form textarea").get_attribute("value")
         self.assertEqual(user_message_value, user_message, "Expected user input not present")
 
-# TC_10. Check if the 'contact new form' textarea 'validation message' disappears after being fulfilled
+# TC_11. Check if the 'contact new form' textarea 'validation message' disappears after being fulfilled
         textarea_validation_message = (By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > span")
         try:
             WebDriverWait(self.driver, 3).until(EC.invisibility_of_element_located(text_area))
