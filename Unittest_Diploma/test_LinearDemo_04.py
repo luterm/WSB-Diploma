@@ -30,16 +30,16 @@ class LinearDemo(unittest.TestCase):
         self.driver.get("https://jignect.tech/")
 
         # Define the locators
+        company_name_field = (By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input')
         contact_us_button = (By.XPATH, "//nav/ul/li[8]/a")
         contact_us_header = (By.CSS_SELECTOR, "div.contact-title h2")
         contact_us_invitation_placeholder = (By.CSS_SELECTOR, "#contact-new-form textarea[placeholder]")
-        text_area = (By.CSS_SELECTOR, '#contact-new-form > div:nth-child(2) > div > p > span > textarea')
-        
-        # TC_03. Check if the 'contact us' button is clickable and redirects to the expected subpage
-        contact_us_button.click()
-        WebDriverWait(self.driver, 5).until(EC.title_contains("Contact Us | JigNect Technologies Pvt Ltd"))
-        self.assertIn("Contact Us | JigNect Technologies Pvt Ltd", self.driver.title, 
-                      "Expected text not found in page title after clicking 'Contact Us'")
+        full_name_field = (By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(1) > p > span > input")
+        contact_us_textarea = (By.CSS_SELECTOR, '#contact-new-form > div:nth-child(2) > div > p > span > textarea')
+        invalid_email_format_prompt = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[2]/p/span/span')
+        phone_field = (By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[2]/p/span/input')
+        submit_button = (By.CSS_SELECTOR, "#contact-new-form > div:nth-child(6) > div > p > input")
+        work_email_address_field = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[2]/p/span/input')
     
 
 # TC_01. Check if the web title is as expected
@@ -61,28 +61,40 @@ class LinearDemo(unittest.TestCase):
         self.assertTrue(contact_new_form.is_displayed(), "The element 'contact_new_form' not displayed")
 
 # TC_05. Check if the 'contact us' box displays the expected text header
-        contact_us_header_welcome_text = self.driver.find_element(*contact_us_header).text
-        self.assertEqual(contact_us_header_welcome_text, "Let's talk", "Contact Us welcome message not displayed")
+        welcome_text = self.driver.find_element(*contact_us_header).text
+        self.assertEqual(welcome_text, "Let's talk", "Contact Us welcome message not displayed")
 
-# TC_06. Check if the 'contact us box' displays the expected 'contact message' 
-        contact_us_invitation_placeholder = self.driver.find_element(*contact_us_invitation_placeholder)
-        placeholder = contact_us_invitation_placeholder.get_attribute("placeholder")
-        self.assertEqual(placeholder, 
-                         "Do you have any specific requirements? Please let us know and we can include them in the discussion.",
-                         "Expected text not present")
+# TC_06. Check if the 'contact us box' displays the expected 'default contact message' 
+        default_contact_message = self.driver.find_element(*contact_us_invitation_placeholder)
+        placeholder_default_text = default_contact_message.get_attribute("placeholder")
+        self.assertEqual(placeholder_default_text, 
+                 "Do you have any specific requirements? Please let us know and we can include them in the discussion.",
+                 "Expected text not present")
+        value_before_typing = default_contact_message.get_attribute("value")
+        self.assertEqual(value_before_typing, "", "Textarea is not empty before typing") 
 
-# TC_07. Check if the 'fields have an error' message is not present before the 'submit button' is clicked
+# TC_07. Check if the 'contact us textarea' default text disappears after clicking and typing
+        textarea = self.driver.find_element(*contact_us_textarea)
+        textarea.send_keys("Bulepa")
+        value_after_typing = textarea.get_attribute("value")
+        self.assertNotEqual(value_after_typing, "", "Textarea is empty after typing")
+
+        # Clear the textarea after the test
+        textarea.clear()
+
+# TC_08. Check if the 'fields have an error' message is not present before the 'submit button' is clicked
         error_message_element = self.driver.find_element(By.XPATH, "//*[@id='wpcf7-f4408-p4307-o1']/form/div[3]")
-        self.assertFalse(error_message_element.is_displayed(), "Unexpected field error message")
+        self.assertFalse(error_message_element.is_displayed(), "Unexpected 'fields have an error' message")
 
-# TC_08. Check validation messages after clicking and leaving fields empty, then clicking the 'submit' button
-        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > textarea").click() # text area field
-        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(1) > p > span > input").click() # name field
-        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(2) > p > span > input").click() # email field
-        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(1) > p > span > input").click() # company field
-        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(4) > div:nth-child(2) > p > span > input").click() # phone field
+# TC_09. Check validation messages presence after clicking and leaving fields empty, then clicking the 'submit' button
+        self.driver.find_element(*contact_us_textarea).click() # contact_us_textarea field
+        self.driver.find_element(*full_name_field).click() # full_name_field
+        self.driver.find_element(*work_email_address_field).click() # work_email_address_field
+        self.driver.find_element(*company_name_field).click() # company_name_field
+        self.driver.find_element(*phone_field).click() # phone_field
 
-        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(6) > div > p > input").click() # submit button
+        # click 'submit button'
+        self.driver.find_element(*submit_button).click() 
 
         expected_validation_message = 'The field is required.'
 
@@ -96,60 +108,75 @@ class LinearDemo(unittest.TestCase):
             (By.CSS_SELECTOR, "#contact-new-form > div:nth-child(5) > div > p > span > span.wpcf7-not-valid-tip") # agree to contact checkbox validation field
         ]
 
-        for locator in fields:
-            validation_message = self.driver.find_element(*locator).text
+        for validation_message_locator in fields:
+            validation_message = self.driver.find_element(*validation_message_locator).text
             self.assertEqual(validation_message, expected_validation_message, 
                              f"Validation message mismatch: {validation_message}")
 
-# TC_09. Check if 'One or more fields have an error' message is present
+# TC_10. Check if 'One or more fields have an error' message is present
         fields_have_an_error_message = self.driver.find_element(By.XPATH, "//*[@id='wpcf7-f4408-p4307-o1']/form/div[3]")
         self.assertTrue(fields_have_an_error_message.is_displayed(), "'Fields have an error message' did not appear")
-# CONTINUE REFACTORING AND CHECK FROM HERE
 
+# TC_11. Check if the 'contact new form' textarea is clickable and clears the text put by user
+        
+        # Verify that the textarea is clickable
+        self.assertTrue(self.driver.find_element(*contact_us_textarea).is_enabled(), "The 'contact new form' textarea is not clickable")
 
-# TC_10. Check if the 'contact new form' saves 'user message' properly
+        # Enter some text in the textarea
         user_message = "".join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(1222))
-        self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form textarea").send_keys(user_message)
-        user_message_value = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form textarea").get_attribute("value")
-        self.assertEqual(user_message_value, user_message, "Expected user input not present")
+        self.driver.find_element(*contact_us_textarea).send_keys(user_message)
 
-# TC_11. Check if the 'contact new form' textarea 'validation message' disappears after being fulfilled
-        textarea_validation_message = (By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > span")
+        # Verify that the entered text is present in the textarea
+        textarea_value = self.driver.find_element(*contact_us_textarea).get_attribute("value")
+        self.assertEqual(textarea_value, user_message, "The entered text is not present in the textarea")
+
+        # Clear the textarea
+        self.driver.find_element(*contact_us_textarea).clear()
+
+        # Verify that the textarea is empty
+        textarea_value = self.driver.find_element(*contact_us_textarea).get_attribute("value")
+        self.assertEqual(textarea_value, "", "The textarea was not cleared")
+
+# TC_12. Check if the 'contact new form' textarea 'validation message' disappears after being fulfilled and FULL_NAME_FIELD clicked
+        text_area_validation_message = (By.CSS_SELECTOR, "#contact-new-form > div:nth-child(2) > div > p > span > span")
         try:
-            WebDriverWait(self.driver, 3).until(EC.invisibility_of_element_located(text_area))
+            WebDriverWait(self.driver, 3).until(EC.invisibility_of_element_located(text_area_validation_message))
         except TimeoutException:
             self.fail("'Textarea' validation message still appears")
 
-        WebDriverWait(self.driver, 5)
+        WebDriverWait(self.driver, 5) # CHECK THE LOGIC between TC_10 and TC_11
 
-# TC_12. Check if the 'Full name' validation message disappears after being clicked and left empty
-        self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input').click()
+
+
+
+
+# TC_13. Check if the 'Full name' validation message disappears after being clicked and left empty
+        self.driver.find_element(*full_name_field).click() # THIS LINE SHOULD BE PERFORMED AT THE AND of TC_10
         full_name_validation_locator = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[1]/p/span/span')
         try:
             WebDriverWait(self.driver, 1).until(EC.invisibility_of_element_located(full_name_validation_locator))
         except TimeoutException:
             self.fail("'Full name' validation message still appears")
 
-# TC_13. Check if the 'Full name' field saves input correctly
+# TC_14. Check if the 'Full name' field saves input correctly
         full_name = self.fake.name()
-        full_name_field = self.wait_for_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(1) > p > span > input").send_keys(full_name)
-        full_name_value = self.driver.find_element(By.CSS_SELECTOR, "#contact-new-form > div:nth-child(3) > div:nth-child(1) > p > span > input").get_attribute("value")
+        full_name_field = self.wait_for_element(*full_name_field).send_keys(full_name)
+        full_name_value = self.driver.find_element(*full_name_field).get_attribute("value")
         self.assertEqual(full_name, full_name_value, "'Full name' value missing")
 
-# TC_14. Check if the 'Company' field is interactive and saves 'user text' properly
+# TC_15. Check if the 'Company' field is interactive and saves 'user input' properly
         company_name = "".join(random.choice(string.ascii_letters) for _ in range(12))
-        self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input').send_keys(company_name)
-        company_name_value = self.driver.find_element(By.CSS_SELECTOR, '#contact-new-form div:nth-child(4) div:nth-child(1) span input').get_attribute("value")
+        self.driver.find_element(*company_name_field).send_keys(company_name)
+        company_name_value = self.driver.find_element(*company_name_field).get_attribute("value")
         self.assertEqual(company_name_value, company_name, "Expected user input not present in 'Company' field")
 
-# TC_15. Check if the 'Work email address' is clickable and saves 'user message' properly
-        work_email_address_locator = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[2]/p/span/input')
-        try:
-            work_email_address_field = WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable(work_email_address_locator))
-            work_email_address_field.click()
-            fake_email = self.fake.email()
-            work_email_address_field.send_keys(fake_email)
-            saved_email = self.driver.find_element(*work_email_address_locator).get_attribute("value")
+# TC_16. Check if the 'Work email address' is clickable and saves 'user message' properly
+        fake_email = self.fake.email()
+        try:                                       
+            work_email_address_is_clickable = WebDriverWait(self.driver, 2).until(EC.element_to_be_clickable(work_email_address_field))
+            work_email_address_input = self.driver.find_element(*work_email_address_field)
+            work_email_address_input.send_keys(fake_email)
+            saved_email = work_email_address_input.get_attribute("value")
             self.assertEqual(fake_email, saved_email, "Work email address field did not save the input correctly")
         except TimeoutException:
             self.fail("Work email address field not clickable")
@@ -157,9 +184,12 @@ class LinearDemo(unittest.TestCase):
         # Clear the field after the test
         work_email_address_field.clear()
 
-# TC_16. Check if the invalid email validation message appears properly
-        invalid_email_format_locator = (By.XPATH, '//*[@id="contact-new-form"]/div[3]/div[2]/p/span/span')
 
+
+
+
+# TC_17. Check if the invalid email validation message appears properly
+        
         def generate_invalid_email():
 
             # Create different types of invalid emails:
@@ -172,24 +202,23 @@ class LinearDemo(unittest.TestCase):
                 lambda: "".join(random.choice(string.ascii_letters) for _ in range(random.randint(5, 10))) + "@example.123"  # Numeric top-level domain
             ]
             return random.choice(types_of_invalid_emails)()
-
             
-        work_email_field = self.driver.find_element(*work_email_address_locator)
+        work_email_input = self.driver.find_element(*work_email_address_field)
         phone_field = self.driver.find_element(By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[2]/p/span/input')
-# THIS TC RUNS TOO FAST - EVEN THOUGH THE ERROR MESSAGE APPEARS, THE TEST RETURNS FALS FAILURE!
+
         for _ in range(11):
             invalid_email = generate_invalid_email()
-            work_email_field.send_keys(invalid_email)
+            work_email_input.send_keys(invalid_email)
             phone_field.click()
 
             try:
-                WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(invalid_email_format_locator))
-                error_message = self.driver.find_element(*invalid_email_format_locator).text
+                WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(invalid_email_format_prompt))
+                error_message = self.driver.find_element(*invalid_email_format_prompt).text
                 self.assertIn("invalid email format", error_message.lower(), f"Email format error message not found for input: {invalid_email}")
             except TimeoutException:
                 self.fail(f"Email format error message did not appear for input: {invalid_email}")
 
-            work_email_field.clear()
+            work_email_address_field.clear()
 
 if __name__ == "__main__":
     unittest.main()
