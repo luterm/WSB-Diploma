@@ -1,6 +1,7 @@
 import unittest
 import random
 import string
+import logging
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -8,28 +9,36 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
 
+# Set up logging:
+logging.basicConfig(filename='test_log.log', level=logging.INFO,
+                    format='%(asctime)s:%(levelname)s:%(message)s')
+
+# Set up the test case class:
 class LinearDemo(unittest.TestCase):
 
     def setUp(self):
+        logging.info('Setting up the test')
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
         self.driver.implicitly_wait(15)
         self.fake = Faker()
 
     def tearDown(self):
+        logging.info('Tearing down the test')
         self.driver.quit()
 
     def wait_for_element(self, by, value, timeout=5):
-        """Wait for an element to be present on the page."""
+        # Wait for an element to be present on the page:
         try:
             return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((by, value)))
         except TimeoutException:
             self.fail(f"Element not found: {by}={value}")
 
     def test_linear_flow_testing_04(self):
+        logging.info('Starting test_linear_flow_testing_04')
         self.driver.get("https://jignect.tech/")
 
-        # Define the locators
+        # Define the locators:
         company_name_field = (By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input')
         contact_us_button = (By.XPATH, "//nav/ul/li[8]/a")
         contact_new_form = (By.CSS_SELECTOR, "#contact-new-form")
