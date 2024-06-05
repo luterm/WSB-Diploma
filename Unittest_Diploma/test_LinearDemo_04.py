@@ -2,6 +2,7 @@ import unittest
 import random
 import string
 import logging
+import time
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -17,6 +18,7 @@ logging.basicConfig(filename='test_log.log', level=logging.INFO,
 class LinearDemo(unittest.TestCase):
 
     def setUp(self):
+        self.start_time = time.time()
         logging.info('Setting up the test')
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -24,7 +26,8 @@ class LinearDemo(unittest.TestCase):
         self.fake = Faker()
 
     def tearDown(self):
-        logging.info('Tearing down the test')
+        elapsed_time = time.time() - self.start_time
+        logging.info('Tearing down the test. Test took %.3f seconds' % elapsed_time)
         self.driver.quit()
 
     def wait_for_element(self, by, value, timeout=5):
@@ -37,6 +40,15 @@ class LinearDemo(unittest.TestCase):
     def test_linear_flow_testing_04(self):
         logging.info('Starting test_linear_flow_testing_04')
         self.driver.get("https://jignect.tech/")
+        logging.info('Finished test_linear_flow_testing_04')
+
+    def run(self, result=None):
+        logging.info('Running test %s' % self._testMethodName)
+        super(LinearDemo, self).run(result)
+        if result.errors or result.failures:
+            logging.error('Test %s failed' % self._testMethodName)
+        else:
+            logging.info('Test %s passed' % self._testMethodName)
 
         # Define the locators:
         company_name_field = (By.XPATH, '//*[@id="contact-new-form"]/div[4]/div[1]/p/span/input')
