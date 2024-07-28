@@ -13,3 +13,51 @@
 2024-06-05 14:48:25,502:WARNING:Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1053d39b0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4a91984c38946237b1dc26ecce01b4fe/title
 2024-06-05 14:48:25,502:WARNING:Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1053d3e00>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4a91984c38946237b1dc26ecce01b4fe/title
 2024-06-05 14:48:25,503:WARNING:Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1053d3bc0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/4a91984c38946237b1dc26ecce01b4fe/title
+2024-06-15 19:55:03,594:INFO:Running test test_linear_flow_testing_04
+2024-06-15 19:55:03,595:INFO:Setting up the test
+2024-06-15 19:55:04,707:INFO:Starting test_linear_flow_testing_04
+2024-06-15 19:55:05,577:INFO:Finished test_linear_flow_testing_04
+2024-06-15 19:55:05,578:INFO:Tearing down the test. Test took 1.982 seconds
+2024-06-15 19:55:05,663:INFO:Test test_linear_flow_testing_04 passed
+2024-06-15 19:55:05,667:WARNING:Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10652b410>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/ddad4ab502f67ed7bec93af4ec63a742/title
+2024-06-15 19:55:05,668:WARNING:Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10652aba0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/ddad4ab502f67ed7bec93af4ec63a742/title
+2024-06-15 19:55:05,668:WARNING:Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10652ae40>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/ddad4ab502f67ed7bec93af4ec63a742/title
+2024-06-15 20:07:58,050:INFO:Running test test_linear_flow_testing_04
+2024-06-15 20:07:58,051:INFO:Setting up the test
+2024-06-15 20:07:59,672:INFO:Starting test_linear_flow_testing_04
+2024-06-15 20:08:06,819:INFO:Finished test_linear_flow_testing_04
+2024-06-15 20:08:06,819:INFO:Tearing down the test. Test took 8.768 seconds
+2024-06-15 20:08:06,903:INFO:Test test_linear_flow_testing_04 passed
+2024-06-15 20:08:06,904:WARNING:Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x106d6b410>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/505bc81a2501374e2ffe3cd72e734e7d/title
+2024-06-15 20:08:06,904:WARNING:Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x106d6ade0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/505bc81a2501374e2ffe3cd72e734e7d/title
+2024-06-15 20:08:06,905:WARNING:Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x106d6b470>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/505bc81a2501374e2ffe3cd72e734e7d/title
+2024-06-15 20:09:04,746:INFO:Running test test_linear_flow_testing_04
+2024-06-15 20:09:04,746:INFO:Setting up the test
+2024-06-15 20:09:05,825:INFO:Starting test_linear_flow_testing_04
+2024-06-15 20:09:08,258:INFO:Finished test_linear_flow_testing_04
+2024-06-15 20:09:08,259:INFO:Tearing down the test. Test took 3.513 seconds
+2024-06-15 20:09:08,339:INFO:Test test_linear_flow_testing_04 passed
+2024-06-15 20:09:08,340:WARNING:Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1029d3410>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/68af5a7214899f5c9f3334510bdf049a/title
+2024-06-15 20:09:08,341:WARNING:Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1029d2de0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/68af5a7214899f5c9f3334510bdf049a/title
+2024-06-15 20:09:08,341:WARNING:Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1029d3470>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/68af5a7214899f5c9f3334510bdf049a/title
+2024-06-15 20:19:22,351:INFO:Running test test_linear_flow_testing_04
+2024-06-15 20:19:22,351:INFO:Setting up the test
+2024-06-15 20:19:23,425:INFO:Starting test_linear_flow_testing_04
+2024-06-15 20:19:29,605:INFO:Finished test_linear_flow_testing_04
+2024-06-15 20:19:29,605:INFO:Tearing down the test. Test took 7.254 seconds
+2024-06-15 20:19:29,684:INFO:Test test_linear_flow_testing_04 passed
+2024-06-15 20:19:29,687:WARNING:Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102bc77d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9054ca942711ec06db3109861e0564a9/title
+2024-06-15 20:19:29,688:WARNING:Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102bc7170>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9054ca942711ec06db3109861e0564a9/title
+2024-06-15 20:19:29,689:WARNING:Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102bc7290>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9054ca942711ec06db3109861e0564a9/title
+2024-06-15 20:42:54,042:INFO:Setting up the test
+2024-06-15 20:42:55,965:INFO:Starting test_linear_flow_testing_04
+2024-06-15 20:43:19,292:INFO:Tearing down the test
+2024-06-15 21:07:25,197:INFO:Running test test_linear_flow_testing_04
+2024-06-15 21:07:25,198:INFO:Setting up the test
+2024-06-15 21:07:26,644:INFO:Starting test_linear_flow_testing_04
+2024-06-15 21:07:37,519:INFO:Finished test_linear_flow_testing_04
+2024-06-15 21:07:37,519:INFO:Tearing down the test. Test took 12.321 seconds
+2024-06-15 21:07:37,600:INFO:Test test_linear_flow_testing_04 passed
+2024-06-15 21:07:37,601:WARNING:Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102726b70>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/98c38fac18d4e09722d486bab7ccd68a/title
+2024-06-15 21:07:37,601:WARNING:Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102726ea0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/98c38fac18d4e09722d486bab7ccd68a/title
+2024-06-15 21:07:37,602:WARNING:Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102726b40>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/98c38fac18d4e09722d486bab7ccd68a/title

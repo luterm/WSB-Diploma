@@ -173,3 +173,5 @@ class LinearDemo(unittest.TestCase):
         # Wait for the error message to appear and check its text
         error_message = self.wait_for_element(*full_name_error_locator)
         self.assertEqual(error_message.text, "The full name field should only contain letters.", "Incorrect error message for numbers in full name")
+
+        #REPAIR THE CODE

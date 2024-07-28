@@ -20,7 +20,7 @@ class LinearDemo(unittest.TestCase):
         logging.info('Setting up the test')
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(15)
         self.fake = Faker()
 
     def tearDown(self):
